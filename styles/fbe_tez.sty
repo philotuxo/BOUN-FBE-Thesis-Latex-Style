@@ -381,40 +381,52 @@ Science and Engineering \\
    {3.25ex \@plus1ex \@minus.2ex}{-0.5em}
    {\normalfont\normalsize\itshape\hskip\parindent}
   }
-%
+
 % There should be a period after the section number.
 % Also the space between the section number and title are set to 0.5em
-\def\@sect#1#2#3#4#5#6[#7]#8{\ifnum #2>\c@secnumdepth
-   \let\@svsec\@empty\else
-   \refstepcounter{#1}
-   \ifnum#2=3
-     \edef\@svsec{\underbar{\csname the#1\endcsname.\hskip 0.5em}}
-     \else
-     \edef\@svsec{\csname the#1\endcsname.\hskip 0.5em}\fi
-   \fi
-   \@tempskipa #5\relax
-   \ifdim \@tempskipa>\z@
-      \begingroup #6\relax
-         \@hangfrom{\hskip #3\relax\@svsec}{\interlinepenalty \@M #8\par}%
-      \endgroup
-      \csname #1mark\endcsname{#7}
-      \addcontentsline{toc}{#1}
-         {\ifnum #2>\c@secnumdepth
-          \else \protect\numberline{\csname the#1\endcsname.}
-          \fi
-          #7}
-   \else
-      \def\@svsechd{#6\hskip #3\relax  %% \relax added 2 May 90
-         \@svsec #8\ifnum #2>\c@secnumdepth.\fi
-         \csname #1mark\endcsname{#7}
-         \addcontentsline{toc}{#1}
-           {\ifnum #2>\c@secnumdepth
-            \else \protect\numberline{\csname the#1\endcsname.}
-            \fi
-         #7}}
-   \fi
-   \@xsect{#5}}
+% \def\@sect#1#2#3#4#5#6[#7]#8{\ifnum #2>\c@secnumdepth
+%    \let\@svsec\@empty\else
+%    \refstepcounter{#1}
+%    \ifnum#2=3
+%      \edef\@svsec{\underbar{\csname the#1\endcsname.\hskip 0.5em}}
+%      \else
+%      \edef\@svsec{\csname the#1\endcsname.\hskip 0.5em}\fi
+%    \fi
+%    \@tempskipa #5\relax
+%    \ifdim \@tempskipa>\z@
+%       \begingroup #6\relax
+%          \@hangfrom{\hskip #3\relax\@svsec}{\interlinepenalty \@M #8\par}%
+%       \endgroup
+%       \csname #1mark\endcsname{#7}
+%       \addcontentsline{toc}{#1}
+%          {\ifnum #2>\c@secnumdepth
+%           \else \protect\numberline{\csname the#1\endcsname.}
+%           \fi
+%           #7}
+%    \else
+%       \def\@svsechd{#6\hskip #3\relax  %% \relax added 2 May 90
+%          \@svsec #8\ifnum #2>\c@secnumdepth.\fi
+%          \csname #1mark\endcsname{#7}
+%          \addcontentsline{toc}{#1}
+%            {\ifnum #2>\c@secnumdepth
+%             \else \protect\numberline{\csname the#1\endcsname.}
+%             \fi
+%          #7}}
+%    \fi
+%    \@xsect{#5}}
 %
+
+% The section above is not compatible with the tikz library
+% A compatible patch follows
+% TODO: Have to put a \hskip 0.5em after the section number in the toc
+\renewcommand{\thechapter}{\arabic{chapter}}
+\renewcommand{\thesection}{\arabic{chapter}.\arabic{section}.}
+\renewcommand{\thesubsection}{\arabic{chapter}.\arabic{section}.\arabic{subsection}.}
+\renewcommand{\thesubsubsection}{\arabic{chapter}.\arabic{section}.\arabic{subsection}.\arabic{subsubsection}.}
+\renewcommand{\thefigure}{\thechapter.\arabic{figure}}
+\renewcommand{\theequation}{\thechapter.\arabic{equation}}
+
+
 % First paragraf of a section should be indented
 \def\@startsection#1#2#3#4#5#6{\if@noskipsec \leavevmode \fi
    \par \@tempskipa #4\relax
